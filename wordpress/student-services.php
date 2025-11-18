@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Student Services
  * Plugin URI: https://github.com/university/student-services
- * Description: Comprehensive student services plugin for college and university websites - includes academic, financial, housing, health, career services and more.
- * Version: 1.0.0
+ * Description: Comprehensive student services plugin for college and university websites - includes academic, financial, housing, health, career services, AI college recommendations, entrance exam prep, language proficiency tests, financial aid calculators, GPA tools, admission counseling and more.
+ * Version: 2.0.0
  * Author: University
  * Author URI: https://university.edu
  * License: GPL v2 or later
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('STUDENT_SERVICES_VERSION', '1.0.0');
+define('STUDENT_SERVICES_VERSION', '2.0.0');
 define('STUDENT_SERVICES_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('STUDENT_SERVICES_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('STUDENT_SERVICES_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -93,6 +93,19 @@ class Student_Services_Plugin {
         // Administrative Services
         require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/administrative/class-records.php';
         require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/administrative/class-it-support.php';
+
+        // Educational Services
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-college-recommendation.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-eligibility-calculator.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-entrance-exam-prep.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-language-proficiency.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-course-discovery.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-interview-prep.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-financial-aid-calculator.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-loan-calculator.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-college-cost-comparison.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-gpa-calculator.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-admission-counseling.php';
 
         // Admin
         if (is_admin()) {

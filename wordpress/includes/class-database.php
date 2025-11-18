@@ -282,6 +282,211 @@ class Student_Services_Database {
             PRIMARY KEY  (id)
         ) $charset_collate;";
         dbDelta($sql);
+
+        // College Searches table (AI College Recommendation)
+        $table_name = $wpdb->prefix . 'ss_college_searches';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            preferences text,
+            results_count int(11),
+            search_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // College Favorites table
+        $table_name = $wpdb->prefix . 'ss_college_favorites';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            college_id bigint(20) NOT NULL,
+            saved_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Eligibility Calculations table
+        $table_name = $wpdb->prefix . 'ss_eligibility_calculations';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            scores_data text,
+            eligible_colleges text,
+            calculation_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Practice Tests table (Entrance Exam Preparation)
+        $table_name = $wpdb->prefix . 'ss_practice_tests';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            exam_id varchar(50) NOT NULL,
+            test_type varchar(50),
+            score decimal(5,2),
+            total_marks decimal(5,2),
+            time_taken int(11),
+            test_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Test Attempts table
+        $table_name = $wpdb->prefix . 'ss_test_attempts';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            test_id bigint(20) NOT NULL,
+            answers text,
+            score decimal(5,2),
+            percentage decimal(5,2),
+            attempt_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id),
+            KEY test_id (test_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Language Test Attempts table
+        $table_name = $wpdb->prefix . 'ss_language_test_attempts';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            test_type varchar(50),
+            section varchar(100),
+            score decimal(5,2),
+            band_score decimal(3,1),
+            test_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Mock Interviews table
+        $table_name = $wpdb->prefix . 'ss_mock_interviews';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            interview_type varchar(50),
+            scheduled_date datetime,
+            interviewer varchar(255),
+            status varchar(20) DEFAULT 'scheduled',
+            feedback text,
+            rating decimal(3,2),
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Interview Questions table
+        $table_name = $wpdb->prefix . 'ss_interview_questions';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            category varchar(50),
+            question_id int(11),
+            user_answer text,
+            practice_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Financial Calculations table
+        $table_name = $wpdb->prefix . 'ss_financial_calculations';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            calculation_data text,
+            total_cost decimal(12,2),
+            financial_need decimal(12,2),
+            calculation_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Loan Calculations table
+        $table_name = $wpdb->prefix . 'ss_loan_calculations';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            loan_amount decimal(12,2),
+            interest_rate decimal(5,2),
+            tenure_months int(11),
+            emi decimal(12,2),
+            calculation_data text,
+            calculation_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Cost Comparisons table
+        $table_name = $wpdb->prefix . 'ss_cost_comparisons';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            comparison_data text,
+            colleges_compared int(11),
+            comparison_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // GPA Calculations table
+        $table_name = $wpdb->prefix . 'ss_gpa_calculations';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            gpa decimal(4,2),
+            total_credits decimal(5,2),
+            grades_data text,
+            calculation_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Counseling Questions table
+        $table_name = $wpdb->prefix . 'ss_counseling_questions';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            subject varchar(255),
+            question text,
+            category varchar(100),
+            status varchar(20) DEFAULT 'pending',
+            answer text,
+            created_date datetime DEFAULT CURRENT_TIMESTAMP,
+            answered_date datetime,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Counselor Reviews table
+        $table_name = $wpdb->prefix . 'ss_counselor_reviews';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            counselor_id bigint(20) NOT NULL,
+            rating decimal(3,2),
+            review_text text,
+            review_date datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id),
+            KEY counselor_id (counselor_id)
+        ) $charset_collate;";
+        dbDelta($sql);
     }
 
     /**
@@ -306,7 +511,21 @@ class Student_Services_Database {
             'ss_memberships',
             'ss_health_appointments',
             'ss_it_tickets',
-            'ss_jobs'
+            'ss_jobs',
+            'ss_college_searches',
+            'ss_college_favorites',
+            'ss_eligibility_calculations',
+            'ss_practice_tests',
+            'ss_test_attempts',
+            'ss_language_test_attempts',
+            'ss_mock_interviews',
+            'ss_interview_questions',
+            'ss_financial_calculations',
+            'ss_loan_calculations',
+            'ss_cost_comparisons',
+            'ss_gpa_calculations',
+            'ss_counseling_questions',
+            'ss_counselor_reviews'
         );
 
         foreach ($tables as $table) {

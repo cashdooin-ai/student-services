@@ -18,6 +18,19 @@ class Student_Services_Shortcodes {
         add_shortcode('student_it_tickets', array(__CLASS__, 'it_tickets_shortcode'));
         add_shortcode('course_search', array(__CLASS__, 'course_search_shortcode'));
         add_shortcode('event_calendar', array(__CLASS__, 'event_calendar_shortcode'));
+
+        // Educational Services Shortcodes
+        add_shortcode('college_recommendation', array(__CLASS__, 'college_recommendation_shortcode'));
+        add_shortcode('eligibility_calculator', array(__CLASS__, 'eligibility_calculator_shortcode'));
+        add_shortcode('entrance_exam_prep', array(__CLASS__, 'entrance_exam_prep_shortcode'));
+        add_shortcode('language_test_prep', array(__CLASS__, 'language_test_prep_shortcode'));
+        add_shortcode('course_discovery', array(__CLASS__, 'course_discovery_shortcode'));
+        add_shortcode('interview_prep', array(__CLASS__, 'interview_prep_shortcode'));
+        add_shortcode('financial_aid_calculator', array(__CLASS__, 'financial_aid_calculator_shortcode'));
+        add_shortcode('emi_calculator', array(__CLASS__, 'emi_calculator_shortcode'));
+        add_shortcode('college_cost_comparison', array(__CLASS__, 'college_cost_comparison_shortcode'));
+        add_shortcode('gpa_calculator', array(__CLASS__, 'gpa_calculator_shortcode'));
+        add_shortcode('admission_counseling', array(__CLASS__, 'admission_counseling_shortcode'));
     }
 
     /**
@@ -403,5 +416,346 @@ class Student_Services_Shortcodes {
      */
     public static function event_calendar_shortcode($atts) {
         return '<div id="ss-event-calendar"></div>';
+    }
+
+    /**
+     * College Recommendation shortcode
+     * Usage: [college_recommendation]
+     */
+    public static function college_recommendation_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-college-recommendation">
+            <h3><?php _e('AI College Recommendation', 'student-services'); ?></h3>
+            <p><?php _e('Let our AI analyze your preferences and find the perfect colleges for you.', 'student-services'); ?></p>
+            <form id="ss-college-recommendation-form">
+                <input type="number" name="academic_score" placeholder="<?php esc_attr_e('Academic Score (%)', 'student-services'); ?>" required />
+                <input type="text" name="preferred_location" placeholder="<?php esc_attr_e('Preferred Location', 'student-services'); ?>" required />
+                <input type="text" name="field_of_study" placeholder="<?php esc_attr_e('Field of Study', 'student-services'); ?>" />
+                <input type="number" name="budget" placeholder="<?php esc_attr_e('Budget (optional)', 'student-services'); ?>" />
+                <button type="submit"><?php _e('Find Colleges', 'student-services'); ?></button>
+            </form>
+            <div id="ss-college-recommendation-results"></div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Eligibility Calculator shortcode
+     * Usage: [eligibility_calculator]
+     */
+    public static function eligibility_calculator_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-eligibility-calculator">
+            <h3><?php _e('Eligibility Calculator', 'student-services'); ?></h3>
+            <p><?php _e('Find out which colleges you\'re eligible for based on your academic scores.', 'student-services'); ?></p>
+            <form id="ss-eligibility-calculator-form">
+                <input type="number" name="percentage_10th" placeholder="<?php esc_attr_e('10th Percentage', 'student-services'); ?>" required />
+                <input type="number" name="percentage_12th" placeholder="<?php esc_attr_e('12th Percentage', 'student-services'); ?>" required />
+                <input type="number" name="entrance_exam_score" placeholder="<?php esc_attr_e('Entrance Exam Score (optional)', 'student-services'); ?>" />
+                <button type="submit"><?php _e('Calculate Eligibility', 'student-services'); ?></button>
+            </form>
+            <div id="ss-eligibility-calculator-results"></div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Entrance Exam Preparation shortcode
+     * Usage: [entrance_exam_prep]
+     */
+    public static function entrance_exam_prep_shortcode($atts) {
+        $service = new Student_Services_Entrance_Exam_Prep();
+        $result = $service->get_available_exams();
+        $exams = $result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-entrance-exam-prep">
+            <h3><?php _e('Entrance Exam Preparation', 'student-services'); ?></h3>
+            <p><?php _e('Comprehensive resources, practice tests, and study plans for all major entrance exams.', 'student-services'); ?></p>
+            <div class="exams-grid">
+                <?php foreach ($exams as $exam) : ?>
+                    <div class="exam-card">
+                        <h4><?php echo esc_html($exam['name']); ?></h4>
+                        <p><?php echo esc_html($exam['full_name']); ?></p>
+                        <p class="exam-duration"><?php _e('Duration:', 'student-services'); ?> <?php echo esc_html($exam['duration_minutes']); ?> <?php _e('minutes', 'student-services'); ?></p>
+                        <button class="view-study-plan" data-exam-id="<?php echo esc_attr($exam['id']); ?>">
+                            <?php _e('View Study Plan', 'student-services'); ?>
+                        </button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Language Test Preparation shortcode
+     * Usage: [language_test_prep]
+     */
+    public static function language_test_prep_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-language-test-prep">
+            <h3><?php _e('Language Proficiency Tests', 'student-services'); ?></h3>
+            <p><?php _e('Prepare for IELTS, TOEFL, PTE, and other English proficiency tests.', 'student-services'); ?></p>
+            <div class="language-tests-grid">
+                <div class="test-card">
+                    <h4>IELTS</h4>
+                    <p><?php _e('International English Language Testing System', 'student-services'); ?></p>
+                    <button class="view-test-info" data-test-type="ielts"><?php _e('View Details', 'student-services'); ?></button>
+                </div>
+                <div class="test-card">
+                    <h4>TOEFL</h4>
+                    <p><?php _e('Test of English as a Foreign Language', 'student-services'); ?></p>
+                    <button class="view-test-info" data-test-type="toefl"><?php _e('View Details', 'student-services'); ?></button>
+                </div>
+                <div class="test-card">
+                    <h4>PTE</h4>
+                    <p><?php _e('Pearson Test of English', 'student-services'); ?></p>
+                    <button class="view-test-info" data-test-type="pte"><?php _e('View Details', 'student-services'); ?></button>
+                </div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Course Discovery shortcode
+     * Usage: [course_discovery]
+     */
+    public static function course_discovery_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-course-discovery">
+            <h3><?php _e('Discover Your Perfect Course', 'student-services'); ?></h3>
+            <p><?php _e('Explore curated courses tailored to your goals and interests.', 'student-services'); ?></p>
+            <form id="ss-course-discovery-form">
+                <input type="text" name="field_of_interest" placeholder="<?php esc_attr_e('Field of Interest', 'student-services'); ?>" required />
+                <select name="course_level">
+                    <option value=""><?php _e('Course Level', 'student-services'); ?></option>
+                    <option value="undergraduate">Undergraduate</option>
+                    <option value="postgraduate">Postgraduate</option>
+                    <option value="certification">Certification</option>
+                </select>
+                <input type="number" name="budget" placeholder="<?php esc_attr_e('Budget (optional)', 'student-services'); ?>" />
+                <button type="submit"><?php _e('Discover Courses', 'student-services'); ?></button>
+            </form>
+            <div id="ss-course-discovery-results"></div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Interview Preparation shortcode
+     * Usage: [interview_prep]
+     */
+    public static function interview_prep_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-interview-prep">
+            <h3><?php _e('Ace Your Interviews', 'student-services'); ?></h3>
+            <p><?php _e('Comprehensive interview preparation with practice questions and mock interviews.', 'student-services'); ?></p>
+            <div class="interview-categories">
+                <button class="category-btn" data-category="technical"><?php _e('Technical', 'student-services'); ?></button>
+                <button class="category-btn" data-category="hr"><?php _e('HR', 'student-services'); ?></button>
+                <button class="category-btn" data-category="behavioral"><?php _e('Behavioral', 'student-services'); ?></button>
+                <button class="category-btn" data-category="case-study"><?php _e('Case Study', 'student-services'); ?></button>
+            </div>
+            <div id="ss-interview-questions"></div>
+            <?php if (is_user_logged_in()) : ?>
+                <div class="mock-interview-section">
+                    <h4><?php _e('Book a Mock Interview', 'student-services'); ?></h4>
+                    <button id="ss-book-mock-interview"><?php _e('Schedule Mock Interview', 'student-services'); ?></button>
+                </div>
+            <?php endif; ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Financial Aid Calculator shortcode
+     * Usage: [financial_aid_calculator]
+     */
+    public static function financial_aid_calculator_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-financial-aid-calculator">
+            <h3><?php _e('Financial Aid Calculator', 'student-services'); ?></h3>
+            <p><?php _e('Plan your education financing with our comprehensive calculator.', 'student-services'); ?></p>
+            <form id="ss-financial-aid-calculator-form">
+                <input type="number" name="tuition_fee" placeholder="<?php esc_attr_e('Annual Tuition Fee', 'student-services'); ?>" required />
+                <input type="number" name="family_income" placeholder="<?php esc_attr_e('Family Income', 'student-services'); ?>" required />
+                <input type="number" name="family_size" placeholder="<?php esc_attr_e('Family Size', 'student-services'); ?>" value="4" />
+                <input type="number" name="siblings_in_college" placeholder="<?php esc_attr_e('Siblings in College', 'student-services'); ?>" value="0" />
+                <button type="submit"><?php _e('Calculate Financial Aid', 'student-services'); ?></button>
+            </form>
+            <div id="ss-financial-aid-calculator-results"></div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * EMI Calculator shortcode
+     * Usage: [emi_calculator]
+     */
+    public static function emi_calculator_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-emi-calculator">
+            <h3><?php _e('Student Loan & EMI Calculator', 'student-services'); ?></h3>
+            <p><?php _e('Calculate your education loan EMI and compare loan schemes.', 'student-services'); ?></p>
+            <form id="ss-emi-calculator-form">
+                <input type="number" name="loan_amount" placeholder="<?php esc_attr_e('Loan Amount', 'student-services'); ?>" required />
+                <input type="number" name="interest_rate" placeholder="<?php esc_attr_e('Interest Rate (%)', 'student-services'); ?>" step="0.1" required />
+                <input type="number" name="tenure_months" placeholder="<?php esc_attr_e('Tenure (Months)', 'student-services'); ?>" required />
+                <button type="submit"><?php _e('Calculate EMI', 'student-services'); ?></button>
+            </form>
+            <div id="ss-emi-calculator-results"></div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * College Cost Comparison shortcode
+     * Usage: [college_cost_comparison]
+     */
+    public static function college_cost_comparison_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-college-cost-comparison">
+            <h3><?php _e('College Cost Comparison', 'student-services'); ?></h3>
+            <p><?php _e('Compare the total cost of attendance across multiple colleges.', 'student-services'); ?></p>
+            <div id="ss-college-cost-comparison-form">
+                <div class="college-comparison-inputs">
+                    <button id="ss-add-college-comparison"><?php _e('Add College', 'student-services'); ?></button>
+                </div>
+                <button id="ss-compare-colleges"><?php _e('Compare Colleges', 'student-services'); ?></button>
+            </div>
+            <div id="ss-college-cost-comparison-results"></div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * GPA Calculator shortcode
+     * Usage: [gpa_calculator]
+     */
+    public static function gpa_calculator_shortcode($atts) {
+        ob_start();
+        ?>
+        <div class="student-services-gpa-calculator">
+            <h3><?php _e('GPA Calculator & Grade Converter', 'student-services'); ?></h3>
+            <p><?php _e('Calculate your GPA and convert between different grading systems.', 'student-services'); ?></p>
+
+            <div class="gpa-calculator-section">
+                <h4><?php _e('Calculate GPA', 'student-services'); ?></h4>
+                <form id="ss-gpa-calculator-form">
+                    <select name="scale">
+                        <option value="4.0">4.0 Scale</option>
+                        <option value="10.0">10.0 Scale</option>
+                    </select>
+                    <div id="ss-gpa-courses"></div>
+                    <button type="button" id="ss-add-course-gpa"><?php _e('Add Course', 'student-services'); ?></button>
+                    <button type="submit"><?php _e('Calculate GPA', 'student-services'); ?></button>
+                </form>
+                <div id="ss-gpa-calculator-results"></div>
+            </div>
+
+            <div class="grade-converter-section">
+                <h4><?php _e('Grade Converter', 'student-services'); ?></h4>
+                <form id="ss-grade-converter-form">
+                    <input type="text" name="grade" placeholder="<?php esc_attr_e('Grade', 'student-services'); ?>" required />
+                    <select name="from_system">
+                        <option value="percentage">Percentage</option>
+                        <option value="gpa_4">GPA (4.0)</option>
+                        <option value="gpa_10">GPA (10.0)</option>
+                        <option value="letter">Letter Grade</option>
+                    </select>
+                    <select name="to_system">
+                        <option value="percentage">Percentage</option>
+                        <option value="gpa_4">GPA (4.0)</option>
+                        <option value="gpa_10">GPA (10.0)</option>
+                        <option value="letter">Letter Grade</option>
+                    </select>
+                    <button type="submit"><?php _e('Convert', 'student-services'); ?></button>
+                </form>
+                <div id="ss-grade-converter-results"></div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Admission Counseling shortcode
+     * Usage: [admission_counseling]
+     */
+    public static function admission_counseling_shortcode($atts) {
+        $service = new Student_Services_Admission_Counseling();
+        $counselors_result = $service->get_available_counselors();
+        $packages_result = $service->get_counseling_packages();
+
+        $counselors = $counselors_result['data'];
+        $packages = $packages_result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-admission-counseling">
+            <h3><?php _e('Admission Counseling', 'student-services'); ?></h3>
+            <p><?php _e('Connect with experienced counselors for personalized college admission guidance.', 'student-services'); ?></p>
+
+            <div class="counseling-packages">
+                <h4><?php _e('Counseling Packages', 'student-services'); ?></h4>
+                <div class="packages-grid">
+                    <?php foreach ($packages as $package) : ?>
+                        <div class="package-card <?php echo isset($package['popular']) && $package['popular'] ? 'popular' : ''; ?>">
+                            <h5><?php echo esc_html($package['name']); ?></h5>
+                            <p class="price">$<?php echo esc_html($package['price']); ?></p>
+                            <p class="sessions"><?php echo esc_html($package['sessions']); ?> <?php _e('Sessions', 'student-services'); ?></p>
+                            <ul>
+                                <?php foreach ($package['features'] as $feature) : ?>
+                                    <li><?php echo esc_html($feature); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <div class="available-counselors">
+                <h4><?php _e('Our Counselors', 'student-services'); ?></h4>
+                <div class="counselors-grid">
+                    <?php foreach ($counselors as $counselor) : ?>
+                        <div class="counselor-card">
+                            <h5><?php echo esc_html($counselor['name']); ?></h5>
+                            <p class="specialization"><?php echo esc_html($counselor['specialization']); ?></p>
+                            <p class="experience"><?php echo esc_html($counselor['experience_years']); ?> <?php _e('years experience', 'student-services'); ?></p>
+                            <p class="rating">⭐ <?php echo esc_html($counselor['rating']); ?> (<?php echo esc_html($counselor['total_students']); ?> <?php _e('students', 'student-services'); ?>)</p>
+                            <p class="fee">$<?php echo esc_html($counselor['fee_per_session']); ?> <?php _e('per session', 'student-services'); ?></p>
+                            <p class="availability <?php echo strtolower($counselor['availability']); ?>"><?php echo esc_html($counselor['availability']); ?></p>
+                            <?php if (is_user_logged_in() && $counselor['availability'] === 'Available') : ?>
+                                <button class="book-counselor" data-counselor-id="<?php echo esc_attr($counselor['id']); ?>">
+                                    <?php _e('Book Session', 'student-services'); ?>
+                                </button>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
     }
 }
