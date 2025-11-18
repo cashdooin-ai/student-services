@@ -1,0 +1,28 @@
+{
+  "name": "@university/student-services-plugin",
+  "version": "1.0.0",
+  "description": "Comprehensive plugin for various student services for college and university students",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "dev": "ts-node src/index.ts"
+  },
+  "keywords": [
+    "student-services",
+    "university",
+    "college",
+    "education",
+    "campus",
+    "plugin"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {}
+}
