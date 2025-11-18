@@ -1,0 +1,119 @@
+/* Student Services Public Styles */
+.student-services-courses,
+.student-services-grades,
+.student-services-billing,
+.student-services-events {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.ss-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: #fff;
+}
+
+.ss-table th,
+.ss-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.ss-table th {
+    background: #2271b1;
+    color: #fff;
+    font-weight: 600;
+}
+
+.ss-table tbody tr:hover {
+    background: #f5f5f5;
+}
+
+.gpa-summary {
+    background: #2271b1;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.gpa-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.balance-summary {
+    background: #fff;
+    padding: 20px;
+    border: 2px solid #2271b1;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.balance-amount {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.balance-amount .amount {
+    font-weight: bold;
+    color: #2271b1;
+}
+
+.events-list .event-item {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #2271b1;
+}
+
+.event-item h4 {
+    margin-top: 0;
+}
+
+.event-meta {
+    color: #666;
+    font-size: 14px;
+}
+
+.event-meta span {
+    margin-right: 15px;
+}
+
+.ss-register-event {
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.ss-register-event:hover {
+    background: #135e96;
+}
+
+#ss-course-search-form {
+    margin-bottom: 20px;
+}
+
+#ss-course-search-form input,
+#ss-course-search-form select,
+#ss-course-search-form button {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+#ss-course-search-form button {
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
