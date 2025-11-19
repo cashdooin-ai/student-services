@@ -487,6 +487,295 @@ class Student_Services_Database {
             KEY counselor_id (counselor_id)
         ) $charset_collate;";
         dbDelta($sql);
+
+        // Mentorship Sessions table
+        $table_name = $wpdb->prefix . 'ss_mentorship_sessions';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            mentor_id bigint(20) NOT NULL,
+            preferred_date date,
+            preferred_time time,
+            topic varchar(255),
+            description text,
+            status varchar(20) DEFAULT 'pending',
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Mentorship Feedback table
+        $table_name = $wpdb->prefix . 'ss_mentorship_feedback';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            session_id bigint(20) NOT NULL,
+            rating decimal(3,2),
+            feedback_text text,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Webinar Registrations table
+        $table_name = $wpdb->prefix . 'ss_webinar_registrations';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            webinar_id bigint(20) NOT NULL,
+            registered_at datetime DEFAULT CURRENT_TIMESTAMP,
+            attendance_status varchar(20) DEFAULT 'registered',
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Forum Posts table
+        $table_name = $wpdb->prefix . 'ss_forum_posts';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            category_id bigint(20) NOT NULL,
+            title varchar(255) NOT NULL,
+            content text NOT NULL,
+            tags varchar(255),
+            views int(11) DEFAULT 0,
+            likes int(11) DEFAULT 0,
+            reply_count int(11) DEFAULT 0,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Forum Replies table
+        $table_name = $wpdb->prefix . 'ss_forum_replies';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            post_id bigint(20) NOT NULL,
+            user_id bigint(20) NOT NULL,
+            content text NOT NULL,
+            likes int(11) DEFAULT 0,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY post_id (post_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Forum Likes table
+        $table_name = $wpdb->prefix . 'ss_forum_likes';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            post_id bigint(20) NOT NULL,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id),
+            KEY post_id (post_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // FAQs table
+        $table_name = $wpdb->prefix . 'ss_faqs';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            category_id bigint(20) NOT NULL,
+            question text NOT NULL,
+            answer text NOT NULL,
+            helpful_count int(11) DEFAULT 0,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // FAQ Submissions table
+        $table_name = $wpdb->prefix . 'ss_faq_submissions';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            question text NOT NULL,
+            category_id bigint(20),
+            status varchar(20) DEFAULT 'pending',
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Calendar Events table
+        $table_name = $wpdb->prefix . 'ss_calendar_events';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            title varchar(255) NOT NULL,
+            event_date date NOT NULL,
+            event_time time,
+            event_type varchar(50),
+            category varchar(100),
+            description text,
+            is_important tinyint(1) DEFAULT 0,
+            reminder_enabled tinyint(1) DEFAULT 0,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Personal Calendar table
+        $table_name = $wpdb->prefix . 'ss_personal_calendar';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            title varchar(255) NOT NULL,
+            event_date date NOT NULL,
+            event_time time,
+            description text,
+            event_type varchar(50),
+            reminder_enabled tinyint(1) DEFAULT 0,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Calendar Reminders table
+        $table_name = $wpdb->prefix . 'ss_calendar_reminders';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            event_id bigint(20) NOT NULL,
+            reminder_days int(11) DEFAULT 1,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Scholarship Applications table
+        $table_name = $wpdb->prefix . 'ss_scholarship_applications';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            scholarship_id bigint(20) NOT NULL,
+            application_data text,
+            status varchar(20) DEFAULT 'submitted',
+            status_notes text,
+            applied_at datetime DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Saved Scholarships table
+        $table_name = $wpdb->prefix . 'ss_saved_scholarships';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            scholarship_id bigint(20) NOT NULL,
+            saved_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Service Requests table
+        $table_name = $wpdb->prefix . 'ss_service_requests';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            service_type_id bigint(20) NOT NULL,
+            service_name varchar(255) NOT NULL,
+            description text,
+            documents text,
+            fee_amount decimal(10,2),
+            payment_status varchar(20) DEFAULT 'pending',
+            status varchar(20) DEFAULT 'pending',
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Payments table
+        $table_name = $wpdb->prefix . 'ss_payments';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            request_id bigint(20),
+            order_id varchar(100),
+            amount decimal(10,2),
+            currency varchar(10) DEFAULT 'INR',
+            gateway varchar(50),
+            transaction_id varchar(255),
+            payment_method varchar(50),
+            status varchar(20) DEFAULT 'initiated',
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            completed_at datetime,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Generated Documents table
+        $table_name = $wpdb->prefix . 'ss_generated_documents';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            template_id bigint(20) NOT NULL,
+            template_name varchar(255),
+            content longtext,
+            data text,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Accommodation Visits table
+        $table_name = $wpdb->prefix . 'ss_accommodation_visits';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            accommodation_id bigint(20) NOT NULL,
+            preferred_date date,
+            preferred_time time,
+            notes text,
+            status varchar(20) DEFAULT 'pending',
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Accommodation Reviews table
+        $table_name = $wpdb->prefix . 'ss_accommodation_reviews';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            accommodation_id bigint(20) NOT NULL,
+            rating decimal(3,2),
+            review_text text,
+            pros text,
+            cons text,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // Accommodation Wishlist table
+        $table_name = $wpdb->prefix . 'ss_accommodation_wishlist';
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            accommodation_id bigint(20) NOT NULL,
+            saved_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY user_id (user_id)
+        ) $charset_collate;";
+        dbDelta($sql);
     }
 
     /**
@@ -525,7 +814,26 @@ class Student_Services_Database {
             'ss_cost_comparisons',
             'ss_gpa_calculations',
             'ss_counseling_questions',
-            'ss_counselor_reviews'
+            'ss_counselor_reviews',
+            'ss_mentorship_sessions',
+            'ss_mentorship_feedback',
+            'ss_webinar_registrations',
+            'ss_forum_posts',
+            'ss_forum_replies',
+            'ss_forum_likes',
+            'ss_faqs',
+            'ss_faq_submissions',
+            'ss_calendar_events',
+            'ss_personal_calendar',
+            'ss_calendar_reminders',
+            'ss_scholarship_applications',
+            'ss_saved_scholarships',
+            'ss_service_requests',
+            'ss_payments',
+            'ss_generated_documents',
+            'ss_accommodation_visits',
+            'ss_accommodation_reviews',
+            'ss_accommodation_wishlist'
         );
 
         foreach ($tables as $table) {
