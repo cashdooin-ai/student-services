@@ -479,6 +479,280 @@ class Student_Services_REST_API {
             'callback' => array(__CLASS__, 'get_accommodation_wishlist'),
             'permission_callback' => 'is_user_logged_in'
         ));
+
+        // CollegeKampus Blog (v4.0.0)
+        register_rest_route($namespace, '/blog/posts', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_blog_posts'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/blog/post/(?P<id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_blog_post'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/blog/like', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'like_blog_post'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/blog/comment', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'add_blog_comment'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/blog/bookmark', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'bookmark_blog_post'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        // Study Abroad Programs (v4.0.0)
+        register_rest_route($namespace, '/study-abroad/countries', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_study_abroad_countries'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/study-abroad/universities', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'search_universities'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/study-abroad/programs/(?P<university_id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_study_abroad_programs'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/study-abroad/apply', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'submit_study_abroad_application'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/study-abroad/wishlist', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'save_study_abroad_wishlist'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        // Placement Statistics (v4.0.0)
+        register_rest_route($namespace, '/placements/stats', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_placement_stats'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/placements/recruiters/(?P<college_id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_top_recruiters'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/placements/compare', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'compare_placements'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/placements/trends/(?P<college_id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_placement_trends'),
+            'permission_callback' => '__return_true'
+        ));
+
+        // Alumni Network (v4.0.0)
+        register_rest_route($namespace, '/alumni/search', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'search_alumni'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/alumni/connect', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'connect_with_alumni'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/alumni/mentorship', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'request_alumni_mentorship'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/alumni/message', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'send_alumni_message'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/alumni/success-stories', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_alumni_success_stories'),
+            'permission_callback' => '__return_true'
+        ));
+
+        // Student Testimonials (v4.0.0)
+        register_rest_route($namespace, '/testimonials', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_testimonials'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/testimonials/submit', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'submit_testimonial'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/testimonials/like', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'like_testimonial'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        // Referral & Rewards (v4.0.0)
+        register_rest_route($namespace, '/referral/code', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_referral_code'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/referral/apply', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'apply_referral_code'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/referral/points', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_points_balance'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/referral/rewards', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_rewards_catalog'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/referral/redeem', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'redeem_reward'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        // Job Board (v4.0.0)
+        register_rest_route($namespace, '/jobs/search', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'search_jobs'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/jobs/apply', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'apply_for_job'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/jobs/save', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'save_job'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/jobs/my-applications', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_my_job_applications'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/jobs/alerts/subscribe', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'subscribe_job_alerts'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        // Student Dashboard (v4.0.0)
+        register_rest_route($namespace, '/dashboard/overview', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_student_dashboard'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/dashboard/profile', array(
+            'methods' => 'PUT',
+            'callback' => array(__CLASS__, 'update_student_profile'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/dashboard/activity', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'log_student_activity'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        // Employer Dashboard (v4.0.0)
+        register_rest_route($namespace, '/employer/register', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'register_employer'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/employer/overview', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_employer_dashboard'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/employer/post-job', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'post_job'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/employer/applications/(?P<job_id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_job_applications'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/employer/application/update', array(
+            'methods' => 'PUT',
+            'callback' => array(__CLASS__, 'update_application_status'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        // Subscription Plans (v4.0.0)
+        register_rest_route($namespace, '/subscriptions/plans', array(
+            'methods' => 'GET',
+            'callback' => array(__CLASS__, 'get_subscription_plans'),
+            'permission_callback' => '__return_true'
+        ));
+
+        register_rest_route($namespace, '/subscriptions/subscribe', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'subscribe_to_plan'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/subscriptions/check-access', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'check_feature_access'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
+
+        register_rest_route($namespace, '/subscriptions/cancel', array(
+            'methods' => 'POST',
+            'callback' => array(__CLASS__, 'cancel_subscription'),
+            'permission_callback' => 'is_user_logged_in'
+        ));
     }
 
     // Course Registration Callbacks
@@ -1320,6 +1594,354 @@ class Student_Services_REST_API {
 
         $result = $service->get_wishlist($user_id);
 
+        return new WP_REST_Response($result, 200);
+    }
+
+    // CollegeKampus Blog Callbacks (v4.0.0)
+    public static function get_blog_posts($request) {
+        $service = new Student_Services_Blog();
+        $result = $service->get_posts($request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_blog_post($request) {
+        $service = new Student_Services_Blog();
+        $result = $service->get_post($request->get_param('id'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function like_blog_post($request) {
+        $service = new Student_Services_Blog();
+        $user_id = get_current_user_id();
+        $result = $service->like_post($user_id, $request->get_param('post_id'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function add_blog_comment($request) {
+        $service = new Student_Services_Blog();
+        $user_id = get_current_user_id();
+        $result = $service->add_comment($user_id, $request->get_param('post_id'), $request->get_param('content'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function bookmark_blog_post($request) {
+        $service = new Student_Services_Blog();
+        $user_id = get_current_user_id();
+        $result = $service->bookmark_post($user_id, $request->get_param('post_id'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Study Abroad Callbacks (v4.0.0)
+    public static function get_study_abroad_countries($request) {
+        $service = new Student_Services_Study_Abroad();
+        $result = $service->get_countries();
+        return new WP_REST_Response(array('success' => true, 'data' => $result), 200);
+    }
+
+    public static function search_universities($request) {
+        $service = new Student_Services_Study_Abroad();
+        $result = $service->search_universities($request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_study_abroad_programs($request) {
+        $service = new Student_Services_Study_Abroad();
+        $result = $service->get_programs($request->get_param('university_id'), $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function submit_study_abroad_application($request) {
+        $service = new Student_Services_Study_Abroad();
+        $user_id = get_current_user_id();
+        $result = $service->submit_application($user_id, $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function save_study_abroad_wishlist($request) {
+        $service = new Student_Services_Study_Abroad();
+        $user_id = get_current_user_id();
+        $result = $service->save_to_wishlist($user_id, $request->get_param('university_id'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Placement Statistics Callbacks (v4.0.0)
+    public static function get_placement_stats($request) {
+        $service = new Student_Services_Placement_Stats();
+        $result = $service->get_college_placements($request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_top_recruiters($request) {
+        $service = new Student_Services_Placement_Stats();
+        $result = $service->get_top_recruiters($request->get_param('college_id'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function compare_placements($request) {
+        $service = new Student_Services_Placement_Stats();
+        $result = $service->compare_colleges($request->get_param('college_ids'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_placement_trends($request) {
+        $service = new Student_Services_Placement_Stats();
+        $result = $service->get_placement_trends($request->get_param('college_id'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Alumni Network Callbacks (v4.0.0)
+    public static function search_alumni($request) {
+        $service = new Student_Services_Alumni_Network();
+        $result = $service->search_alumni($request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function connect_with_alumni($request) {
+        $service = new Student_Services_Alumni_Network();
+        $user_id = get_current_user_id();
+        $result = $service->connect_with_alumni($user_id, $request->get_param('alumni_id'), $request->get_param('message'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function request_alumni_mentorship($request) {
+        $service = new Student_Services_Alumni_Network();
+        $user_id = get_current_user_id();
+        $result = $service->request_mentorship($user_id, $request->get_param('alumni_id'), $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function send_alumni_message($request) {
+        $service = new Student_Services_Alumni_Network();
+        $user_id = get_current_user_id();
+        $result = $service->send_message($user_id, $request->get_param('alumni_id'), $request->get_param('message'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_alumni_success_stories($request) {
+        $service = new Student_Services_Alumni_Network();
+        $result = $service->get_success_stories($request->get_param('limit') ?? 10);
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Testimonials Callbacks (v4.0.0)
+    public static function get_testimonials($request) {
+        $service = new Student_Services_Testimonials();
+        $result = $service->get_testimonials($request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function submit_testimonial($request) {
+        $service = new Student_Services_Testimonials();
+        $user_id = get_current_user_id();
+        $result = $service->submit_testimonial($user_id, $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function like_testimonial($request) {
+        $service = new Student_Services_Testimonials();
+        $user_id = get_current_user_id();
+        $result = $service->like_testimonial($user_id, $request->get_param('testimonial_id'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Referral & Rewards Callbacks (v4.0.0)
+    public static function get_referral_code($request) {
+        $service = new Student_Services_Referral_Rewards();
+        $user_id = get_current_user_id();
+        $result = $service->get_referral_code($user_id);
+        return new WP_REST_Response(array('success' => true, 'code' => $result), 200);
+    }
+
+    public static function apply_referral_code($request) {
+        $service = new Student_Services_Referral_Rewards();
+        $user_id = get_current_user_id();
+        $result = $service->apply_referral_code($user_id, $request->get_param('code'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_points_balance($request) {
+        $service = new Student_Services_Referral_Rewards();
+        $user_id = get_current_user_id();
+        $result = $service->get_points_balance($user_id);
+        return new WP_REST_Response(array('success' => true, 'points' => $result), 200);
+    }
+
+    public static function get_rewards_catalog($request) {
+        $service = new Student_Services_Referral_Rewards();
+        $result = $service->get_rewards_catalog();
+        return new WP_REST_Response(array('success' => true, 'data' => $result), 200);
+    }
+
+    public static function redeem_reward($request) {
+        $service = new Student_Services_Referral_Rewards();
+        $user_id = get_current_user_id();
+        $result = $service->redeem_reward($user_id, $request->get_param('reward_id'), $request->get_param('points_required'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Job Board Callbacks (v4.0.0)
+    public static function search_jobs($request) {
+        $service = new Student_Services_Job_Board();
+        $result = $service->search_jobs($request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function apply_for_job($request) {
+        $service = new Student_Services_Job_Board();
+        $user_id = get_current_user_id();
+        $result = $service->apply_for_job($user_id, $request->get_param('job_id'), $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function save_job($request) {
+        $service = new Student_Services_Job_Board();
+        $user_id = get_current_user_id();
+        $result = $service->save_job($user_id, $request->get_param('job_id'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_my_job_applications($request) {
+        $service = new Student_Services_Job_Board();
+        $user_id = get_current_user_id();
+        $result = $service->get_my_applications($user_id, $request->get_param('status'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function subscribe_job_alerts($request) {
+        $service = new Student_Services_Job_Board();
+        $user_id = get_current_user_id();
+        $result = $service->subscribe_to_alerts($user_id, $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Student Dashboard Callbacks (v4.0.0)
+    public static function get_student_dashboard($request) {
+        $service = new Student_Services_Student_Dashboard();
+        $user_id = get_current_user_id();
+        $result = $service->get_dashboard_overview($user_id);
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function update_student_profile($request) {
+        $service = new Student_Services_Student_Dashboard();
+        $user_id = get_current_user_id();
+        $result = $service->update_profile($user_id, $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function log_student_activity($request) {
+        $service = new Student_Services_Student_Dashboard();
+        $user_id = get_current_user_id();
+        $result = $service->log_activity($user_id, $request->get_param('type'), $request->get_param('description'), $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Employer Dashboard Callbacks (v4.0.0)
+    public static function register_employer($request) {
+        $service = new Student_Services_Employer_Dashboard();
+        $user_id = get_current_user_id();
+        $result = $service->register_employer($user_id, $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_employer_dashboard($request) {
+        $service = new Student_Services_Employer_Dashboard();
+        $user_id = get_current_user_id();
+
+        // Get employer ID from user
+        global $wpdb;
+        $employer = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM {$wpdb->prefix}ss_employers WHERE user_id = %d",
+            $user_id
+        ));
+
+        if (!$employer) {
+            return new WP_REST_Response(array('success' => false, 'message' => 'Employer not found'), 404);
+        }
+
+        $result = $service->get_employer_overview($employer->id);
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function post_job($request) {
+        $service = new Student_Services_Employer_Dashboard();
+        $user_id = get_current_user_id();
+
+        global $wpdb;
+        $employer = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM {$wpdb->prefix}ss_employers WHERE user_id = %d",
+            $user_id
+        ));
+
+        if (!$employer) {
+            return new WP_REST_Response(array('success' => false, 'message' => 'Employer not found'), 404);
+        }
+
+        $result = $service->post_job($employer->id, $request->get_params());
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function get_job_applications($request) {
+        $service = new Student_Services_Employer_Dashboard();
+        $user_id = get_current_user_id();
+
+        global $wpdb;
+        $employer = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM {$wpdb->prefix}ss_employers WHERE user_id = %d",
+            $user_id
+        ));
+
+        if (!$employer) {
+            return new WP_REST_Response(array('success' => false, 'message' => 'Employer not found'), 404);
+        }
+
+        $result = $service->get_job_applications($employer->id, $request->get_param('job_id'), $request->get_param('status'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function update_application_status($request) {
+        $service = new Student_Services_Employer_Dashboard();
+        $user_id = get_current_user_id();
+
+        global $wpdb;
+        $employer = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM {$wpdb->prefix}ss_employers WHERE user_id = %d",
+            $user_id
+        ));
+
+        if (!$employer) {
+            return new WP_REST_Response(array('success' => false, 'message' => 'Employer not found'), 404);
+        }
+
+        $result = $service->update_application_status($employer->id, $request->get_param('application_id'), $request->get_param('status'), $request->get_param('notes'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    // Subscription Plans Callbacks (v4.0.0)
+    public static function get_subscription_plans($request) {
+        $service = new Student_Services_Subscription_Plans();
+        $result = $service->get_plans();
+        return new WP_REST_Response(array('success' => true, 'data' => $result), 200);
+    }
+
+    public static function subscribe_to_plan($request) {
+        $service = new Student_Services_Subscription_Plans();
+        $user_id = get_current_user_id();
+        $result = $service->subscribe($user_id, $request->get_param('plan_id'), $request->get_param('billing_cycle'));
+        return new WP_REST_Response($result, 200);
+    }
+
+    public static function check_feature_access($request) {
+        $service = new Student_Services_Subscription_Plans();
+        $user_id = get_current_user_id();
+        $result = $service->has_feature_access($user_id, $request->get_param('feature'));
+        return new WP_REST_Response(array('success' => true, 'has_access' => $result), 200);
+    }
+
+    public static function cancel_subscription($request) {
+        $service = new Student_Services_Subscription_Plans();
+        $user_id = get_current_user_id();
+        $result = $service->cancel_subscription($user_id);
         return new WP_REST_Response($result, 200);
     }
 }
