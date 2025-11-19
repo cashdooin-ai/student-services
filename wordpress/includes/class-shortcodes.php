@@ -31,6 +31,17 @@ class Student_Services_Shortcodes {
         add_shortcode('college_cost_comparison', array(__CLASS__, 'college_cost_comparison_shortcode'));
         add_shortcode('gpa_calculator', array(__CLASS__, 'gpa_calculator_shortcode'));
         add_shortcode('admission_counseling', array(__CLASS__, 'admission_counseling_shortcode'));
+
+        // New Student Support Services Shortcodes
+        add_shortcode('find_mentor', array(__CLASS__, 'mentorship_shortcode'));
+        add_shortcode('webinars_workshops', array(__CLASS__, 'webinars_shortcode'));
+        add_shortcode('student_forum', array(__CLASS__, 'forum_shortcode'));
+        add_shortcode('faq_search', array(__CLASS__, 'faq_shortcode'));
+        add_shortcode('academic_calendar', array(__CLASS__, 'calendar_shortcode'));
+        add_shortcode('scholarship_search', array(__CLASS__, 'scholarship_shortcode'));
+        add_shortcode('service_request_form', array(__CLASS__, 'service_request_shortcode'));
+        add_shortcode('document_templates', array(__CLASS__, 'document_templates_shortcode'));
+        add_shortcode('accommodation_finder', array(__CLASS__, 'accommodation_shortcode'));
     }
 
     /**
@@ -753,6 +764,400 @@ class Student_Services_Shortcodes {
                         </div>
                     <?php endforeach; ?>
                 </div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display mentorship listing
+     * Usage: [find_mentor]
+     */
+    public static function mentorship_shortcode($atts) {
+        $service = new Student_Services_Mentorship();
+        $result = $service->get_available_mentors();
+
+        if (!$result['success']) {
+            return '<p>' . __('Error loading mentors.', 'student-services') . '</p>';
+        }
+
+        $mentors = $result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-mentorship">
+            <h3><?php _e('Find Your Mentor', 'student-services'); ?></h3>
+            <p><?php _e('Connect with experienced professionals and students.', 'student-services'); ?></p>
+            <div class="mentors-grid">
+                <?php foreach ($mentors as $mentor) : ?>
+                    <div class="mentor-card">
+                        <h4><?php echo esc_html($mentor['name']); ?></h4>
+                        <p class="company"><?php echo esc_html($mentor['current_company']); ?></p>
+                        <p class="expertise"><?php echo esc_html($mentor['expertise_area']); ?></p>
+                        <p class="rating">⭐ <?php echo esc_html($mentor['rating']); ?></p>
+                        <?php if (is_user_logged_in()) : ?>
+                            <button class="book-mentor" data-mentor-id="<?php echo esc_attr($mentor['id']); ?>">
+                                <?php _e('Book Session', 'student-services'); ?>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display upcoming webinars
+     * Usage: [webinars_workshops]
+     */
+    public static function webinars_shortcode($atts) {
+        $service = new Student_Services_Webinars();
+        $result = $service->get_upcoming_webinars();
+
+        if (!$result['success']) {
+            return '<p>' . __('Error loading webinars.', 'student-services') . '</p>';
+        }
+
+        $webinars = $result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-webinars">
+            <h3><?php _e('Upcoming Webinars & Workshops', 'student-services'); ?></h3>
+            <div class="webinars-list">
+                <?php foreach ($webinars as $webinar) : ?>
+                    <div class="webinar-card">
+                        <h4><?php echo esc_html($webinar['title']); ?></h4>
+                        <p class="speaker"><?php _e('By:', 'student-services'); ?> <?php echo esc_html($webinar['speaker_name']); ?></p>
+                        <p class="date"><?php echo esc_html(date('F j, Y g:i A', strtotime($webinar['scheduled_date']))); ?></p>
+                        <p class="category"><?php echo esc_html($webinar['category']); ?></p>
+                        <p class="capacity"><?php echo esc_html($webinar['registered_count']); ?>/<?php echo esc_html($webinar['capacity']); ?> <?php _e('registered', 'student-services'); ?></p>
+                        <?php if (is_user_logged_in()) : ?>
+                            <button class="register-webinar" data-webinar-id="<?php echo esc_attr($webinar['id']); ?>">
+                                <?php _e('Register Now', 'student-services'); ?>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display student forum
+     * Usage: [student_forum]
+     */
+    public static function forum_shortcode($atts) {
+        $service = new Student_Services_Forum();
+        $posts_result = $service->get_posts();
+        $categories_result = $service->get_categories();
+
+        if (!$posts_result['success'] || !$categories_result['success']) {
+            return '<p>' . __('Error loading forum.', 'student-services') . '</p>';
+        }
+
+        $posts = $posts_result['data'];
+        $categories = $categories_result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-forum">
+            <h3><?php _e('Student Forum', 'student-services'); ?></h3>
+
+            <?php if (is_user_logged_in()) : ?>
+                <button class="create-post-btn"><?php _e('Create New Post', 'student-services'); ?></button>
+            <?php endif; ?>
+
+            <div class="forum-categories">
+                <?php foreach ($categories as $category) : ?>
+                    <button class="category-filter" data-category="<?php echo esc_attr($category['id']); ?>">
+                        <?php echo esc_html($category['name']); ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="forum-posts">
+                <?php foreach ($posts as $post) : ?>
+                    <div class="forum-post">
+                        <h4><?php echo esc_html($post->title); ?></h4>
+                        <p><?php echo esc_html(wp_trim_words($post->content, 30)); ?></p>
+                        <div class="post-meta">
+                            <span><?php echo esc_html($post->views); ?> <?php _e('views', 'student-services'); ?></span>
+                            <span><?php echo esc_html($post->likes); ?> <?php _e('likes', 'student-services'); ?></span>
+                            <span><?php echo esc_html($post->replies); ?> <?php _e('replies', 'student-services'); ?></span>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display FAQ search
+     * Usage: [faq_search]
+     */
+    public static function faq_shortcode($atts) {
+        $service = new Student_Services_FAQ();
+        $categories_result = $service->get_categories();
+        $faqs_result = $service->get_faqs();
+
+        if (!$categories_result['success'] || !$faqs_result['success']) {
+            return '<p>' . __('Error loading FAQs.', 'student-services') . '</p>';
+        }
+
+        $categories = $categories_result['data'];
+        $faqs = $faqs_result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-faq">
+            <h3><?php _e('Frequently Asked Questions', 'student-services'); ?></h3>
+
+            <div class="faq-search-box">
+                <input type="text" id="faq-search" placeholder="<?php _e('Search FAQs...', 'student-services'); ?>">
+            </div>
+
+            <div class="faq-categories">
+                <?php foreach ($categories as $category) : ?>
+                    <button class="faq-category" data-category="<?php echo esc_attr($category['id']); ?>">
+                        <?php echo esc_html($category['name']); ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="faq-list">
+                <?php foreach ($faqs as $faq) : ?>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4><?php echo esc_html($faq->question); ?></h4>
+                        </div>
+                        <div class="faq-answer">
+                            <p><?php echo esc_html($faq->answer); ?></p>
+                            <button class="helpful-btn" data-faq-id="<?php echo esc_attr($faq->id); ?>">
+                                <?php _e('Helpful', 'student-services'); ?> (<?php echo esc_html($faq->helpful_count); ?>)
+                            </button>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display academic calendar
+     * Usage: [academic_calendar]
+     */
+    public static function calendar_shortcode($atts) {
+        $service = new Student_Services_Academic_Calendar();
+        $result = $service->get_calendar_events();
+
+        if (!$result['success']) {
+            return '<p>' . __('Error loading calendar.', 'student-services') . '</p>';
+        }
+
+        $events = $result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-calendar">
+            <h3><?php _e('Academic Calendar', 'student-services'); ?></h3>
+            <div class="calendar-events">
+                <?php foreach ($events as $event) : ?>
+                    <div class="calendar-event <?php echo esc_attr($event->importance); ?>">
+                        <h4><?php echo esc_html($event->title); ?></h4>
+                        <p class="event-date"><?php echo esc_html(date('F j, Y', strtotime($event->event_date))); ?></p>
+                        <p><?php echo esc_html($event->description); ?></p>
+                        <span class="event-type"><?php echo esc_html($event->event_type); ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display scholarship search
+     * Usage: [scholarship_search]
+     */
+    public static function scholarship_shortcode($atts) {
+        $service = new Student_Services_Enhanced_Scholarship();
+        $result = $service->search_scholarships();
+
+        if (!$result['success']) {
+            return '<p>' . __('Error loading scholarships.', 'student-services') . '</p>';
+        }
+
+        $scholarships = $result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-scholarships">
+            <h3><?php _e('Find Your Perfect Scholarship', 'student-services'); ?></h3>
+            <div class="scholarships-grid">
+                <?php foreach ($scholarships as $scholarship) : ?>
+                    <div class="scholarship-card">
+                        <h4><?php echo esc_html($scholarship['name']); ?></h4>
+                        <p class="provider"><?php echo esc_html($scholarship['provider']); ?></p>
+                        <p class="amount">₹<?php echo esc_html(number_format($scholarship['amount'])); ?></p>
+                        <p class="type"><?php echo esc_html($scholarship['type']); ?></p>
+                        <p class="deadline"><?php _e('Deadline:', 'student-services'); ?> <?php echo esc_html(date('F j, Y', strtotime($scholarship['deadline']))); ?></p>
+                        <?php if (is_user_logged_in()) : ?>
+                            <button class="apply-scholarship" data-scholarship-id="<?php echo esc_attr($scholarship['id']); ?>">
+                                <?php _e('Apply Now', 'student-services'); ?>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display service request form
+     * Usage: [service_request_form]
+     */
+    public static function service_request_shortcode($atts) {
+        if (!is_user_logged_in()) {
+            return '<p>' . __('Please log in to submit a service request.', 'student-services') . '</p>';
+        }
+
+        $service = new Student_Services_Service_Request();
+        $types_result = $service->get_service_types();
+
+        if (!$types_result['success']) {
+            return '<p>' . __('Error loading service types.', 'student-services') . '</p>';
+        }
+
+        $service_types = $types_result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-request-form">
+            <h3><?php _e('Service Request Form', 'student-services'); ?></h3>
+            <p><?php _e('All services require a ₹250 processing fee', 'student-services'); ?></p>
+
+            <form id="service-request-form">
+                <div class="form-group">
+                    <label for="service_type"><?php _e('Service Type', 'student-services'); ?></label>
+                    <select name="service_type_id" id="service_type" required>
+                        <option value=""><?php _e('Select service...', 'student-services'); ?></option>
+                        <?php foreach ($service_types as $type) : ?>
+                            <option value="<?php echo esc_attr($type['id']); ?>" data-fee="<?php echo esc_attr($type['fee']); ?>">
+                                <?php echo esc_html($type['name']); ?> - ₹<?php echo esc_html($type['fee']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description"><?php _e('Description', 'student-services'); ?></label>
+                    <textarea name="description" id="description" rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn"><?php _e('Submit Request & Pay', 'student-services'); ?></button>
+            </form>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display document templates
+     * Usage: [document_templates]
+     */
+    public static function document_templates_shortcode($atts) {
+        $service = new Student_Services_Document_Templates();
+        $result = $service->get_templates();
+
+        if (!$result['success']) {
+            return '<p>' . __('Error loading templates.', 'student-services') . '</p>';
+        }
+
+        $templates = $result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-templates">
+            <h3><?php _e('Document Templates', 'student-services'); ?></h3>
+            <p><?php _e('Create professional documents for your college applications', 'student-services'); ?></p>
+
+            <div class="templates-grid">
+                <?php foreach ($templates as $template) : ?>
+                    <div class="template-card">
+                        <h4><?php echo esc_html($template['name']); ?></h4>
+                        <p class="category"><?php echo esc_html($template['category']); ?></p>
+                        <p><?php echo esc_html($template['description']); ?></p>
+                        <p class="downloads"><?php echo esc_html($template['downloads']); ?> <?php _e('downloads', 'student-services'); ?></p>
+                        <?php if (is_user_logged_in()) : ?>
+                            <button class="use-template" data-template-id="<?php echo esc_attr($template['id']); ?>">
+                                <?php _e('Use Template', 'student-services'); ?>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Display accommodation finder
+     * Usage: [accommodation_finder]
+     */
+    public static function accommodation_shortcode($atts) {
+        $service = new Student_Services_Accommodation();
+        $result = $service->search_accommodations();
+
+        if (!$result['success']) {
+            return '<p>' . __('Error loading accommodations.', 'student-services') . '</p>';
+        }
+
+        $accommodations = $result['data'];
+
+        ob_start();
+        ?>
+        <div class="student-services-accommodation">
+            <h3><?php _e('Find Your Perfect Accommodation', 'student-services'); ?></h3>
+            <p><?php _e('Verified hostels, PGs, and flats near your college', 'student-services'); ?></p>
+
+            <div class="accommodations-grid">
+                <?php foreach ($accommodations as $accommodation) : ?>
+                    <div class="accommodation-card <?php echo $accommodation['verified'] ? 'verified' : ''; ?>">
+                        <?php if ($accommodation['featured']) : ?>
+                            <span class="featured-badge"><?php _e('Featured', 'student-services'); ?></span>
+                        <?php endif; ?>
+                        <h4><?php echo esc_html($accommodation['name']); ?></h4>
+                        <p class="type"><?php echo esc_html($accommodation['type']); ?> - <?php echo esc_html($accommodation['gender']); ?></p>
+                        <p class="location"><?php echo esc_html($accommodation['location']); ?></p>
+                        <p class="distance"><?php echo esc_html($accommodation['distance_from_college']); ?> <?php _e('from college', 'student-services'); ?></p>
+                        <p class="rent">₹<?php echo esc_html(number_format($accommodation['rent_per_month'])); ?>/<?php _e('month', 'student-services'); ?></p>
+                        <p class="sharing"><?php echo esc_html($accommodation['sharing_type']); ?></p>
+                        <p class="rating">⭐ <?php echo esc_html($accommodation['rating']); ?> (<?php echo esc_html($accommodation['reviews_count']); ?> <?php _e('reviews', 'student-services'); ?>)</p>
+                        <div class="facilities">
+                            <?php foreach ($accommodation['facilities'] as $facility) : ?>
+                                <span class="facility-tag"><?php echo esc_html($facility); ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php if (is_user_logged_in()) : ?>
+                            <button class="request-visit" data-accommodation-id="<?php echo esc_attr($accommodation['id']); ?>">
+                                <?php _e('Request Visit', 'student-services'); ?>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
         <?php

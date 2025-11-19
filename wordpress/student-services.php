@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Student Services
  * Plugin URI: https://github.com/university/student-services
- * Description: Comprehensive student services plugin for college and university websites - includes academic, financial, housing, health, career services, AI college recommendations, entrance exam prep, language proficiency tests, financial aid calculators, GPA tools, admission counseling and more.
- * Version: 2.0.0
+ * Description: Comprehensive student services plugin for college and university websites - includes academic, financial, housing, health, career services, AI college recommendations, entrance exam prep, language proficiency tests, financial aid calculators, GPA tools, admission counseling, mentorship, webinars, student forum, FAQs, scholarships, accommodation finder, document templates and more.
+ * Version: 3.0.0
  * Author: University
  * Author URI: https://university.edu
  * License: GPL v2 or later
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('STUDENT_SERVICES_VERSION', '2.0.0');
+define('STUDENT_SERVICES_VERSION', '3.0.0');
 define('STUDENT_SERVICES_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('STUDENT_SERVICES_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('STUDENT_SERVICES_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -106,6 +106,20 @@ class Student_Services_Plugin {
         require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-college-cost-comparison.php';
         require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-gpa-calculator.php';
         require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/educational/class-admission-counseling.php';
+
+        // Student Support Services (v3.0.0)
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-mentorship.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-webinars.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-forum.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-faq.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-academic-calendar.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-enhanced-scholarship.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-service-request.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-document-templates.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/student-support/class-accommodation.php';
+
+        // Data Seeder
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/class-data-seeder.php';
 
         // Admin
         if (is_admin()) {
