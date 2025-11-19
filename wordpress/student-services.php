@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Student Services
  * Plugin URI: https://github.com/university/student-services
- * Description: Comprehensive student services plugin for college and university websites - includes academic, financial, housing, health, career services, AI college recommendations, entrance exam prep, language proficiency tests, financial aid calculators, GPA tools, admission counseling, mentorship, webinars, student forum, FAQs, scholarships, accommodation finder, document templates and more.
- * Version: 3.0.0
+ * Description: Complete student platform with 49 services - academic, financial, housing, career, AI recommendations, entrance exams, scholarships, mentorship, webinars, student forum, FAQs, blog/news, study abroad programs, placement statistics, alumni network, testimonials, referral rewards, job board (part-time/internship/freelance), student & employer dashboards, subscription plans and more.
+ * Version: 4.0.0
  * Author: University
  * Author URI: https://university.edu
  * License: GPL v2 or later
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('STUDENT_SERVICES_VERSION', '3.0.0');
+define('STUDENT_SERVICES_VERSION', '4.0.0');
 define('STUDENT_SERVICES_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('STUDENT_SERVICES_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('STUDENT_SERVICES_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -120,6 +120,18 @@ class Student_Services_Plugin {
 
         // Data Seeder
         require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/class-data-seeder.php';
+
+        // Community Services (v4.0.0)
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-blog.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-study-abroad.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-placement-stats.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-alumni-network.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-testimonials.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-referral-rewards.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-job-board.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-student-dashboard.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-employer-dashboard.php';
+        require_once STUDENT_SERVICES_PLUGIN_DIR . 'includes/community/class-subscription-plans.php';
 
         // Admin
         if (is_admin()) {
